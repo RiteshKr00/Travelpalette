@@ -1,0 +1,53 @@
+# Node.js
+node_modules/
+
+# Logs and crash reports
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Build output
+dist/
+build/
+out/
+
+# Dependency lock files
+package-lock.json
+yarn.lock
+
+# Environment variables
+.env
+
+# Coverage reports
+coverage/
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Directory for storing .zip files
+*.zip
+
+# Compiled binary addons (e.g., node-sass)
+build/Release
+
+# Project specific (modify as needed)
+/config.js
