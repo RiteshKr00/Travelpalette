@@ -75,10 +75,11 @@ exports.signin = async (req, res) => {
 };
 exports.googleSignin = async (req, res) => {
   try {
-    console.log(req.user);
-    const { email } = req.user;
-    const existingUser = await User.findOne({ email: email });
-    console.log(existingUser);
+    // console.log(req.user);
+    const { value } = req.user.emails[0];
+    console.log("=======================", req.user.emails[0]);
+    const existingUser = await User.findOne({ email: value });
+    console.log("User alredy exist", existingUser);
     let token;
     if (existingUser) {
       //create new user
@@ -105,7 +106,7 @@ exports.googleSignin = async (req, res) => {
 
     //set cookie
     res.cookie("token", token, { expire: new Date() + 360000 }); //after call get user detail api at profile page
-    res.redirect("/profile");
+    res.redirect(`${process.env.Redirect_Url}`);
   } catch (err) {
     console.log(err.message);
     return res.status(500).json({ err: err.message });

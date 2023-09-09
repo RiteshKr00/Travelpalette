@@ -27,7 +27,9 @@ exports.createInpiration = async (req, res, next) => {
 
     res
       .status(200)
-      .json(successResponse(savedInspiration, "User Registered Successfully"));
+      .json(
+        successResponse(savedInspiration, "Inspiration created Successfully")
+      );
   } catch (error) {
     res.status(500).json(errorResponse("Internal server error" + error, 500));
   }

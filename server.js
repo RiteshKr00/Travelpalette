@@ -26,6 +26,11 @@ connectDB();
 app.use("/api/v1/auth", userRoutes);
 app.use("/api/v1/inspiration", inspirationRoutes);
 
+app.get("/", (req, res) => {
+  return res
+    .status(200)
+    .json(successResponse(null, "Server is Live . Connect Frontend"));
+});
 app.get("/ping", (req, res) => {
   return res.status(200).json(successResponse(null, "Server is Live"));
 });
