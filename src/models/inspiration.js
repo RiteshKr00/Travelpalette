@@ -33,6 +33,7 @@ const inspirationSchema = new mongoose.Schema(
     },
     favorite: {
       type: Boolean,
+      default: false,
       // required: true,
     },
   },
@@ -40,5 +41,5 @@ const inspirationSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-
-export default Inspiration = mongoose.model("Inspiration", inspirationSchema);
+const Inspiration = mongoose.model("Inspiration", inspirationSchema);
+module.exports = { Inspiration };

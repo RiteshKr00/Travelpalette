@@ -35,7 +35,6 @@ exports.signup = async (req, res) => {
 exports.signin = async (req, res) => {
   try {
     //validation check
-
     // const { error } = validateUser(req.body);
     // if (error) {
     //   return res
@@ -44,6 +43,7 @@ exports.signin = async (req, res) => {
     // }
     const { email, password } = req.body;
     const existingUser = await User.findOne({ email: email });
+
     if (!existingUser) {
       return res.status(403).json(errorResponse(" User not found", 403));
     }
@@ -60,16 +60,59 @@ exports.signin = async (req, res) => {
     const bearerToken = jwt.sign(payload, process.env.SECRET, {
       expiresIn: "1h",
     });
-    //set cookie 
+    //data to be sent in response
+    const data = {
+      id: existingUser._id,
+      name: existingUser.name,
+      email: existingUser.email,
+    };
+    //set cookie
     res.cookie("token", bearerToken, { expire: new Date() + 360000 });
-    res
-      .status(200)
-      .json(successResponse(bearerToken, "Signed in Successfully!"));
+    res.status(200).json(successResponse(data, "Signed in Successfully!"));
   } catch (error) {
     res.status(500).json(errorResponse("Internal server error", 500));
   }
 };
-exports.signout = async (_req, res) => {
+exports.googleSignin = async (req, res) => {
+  try {
+    console.log(req.user);
+    const { email } = req.user;
+    const existingUser = await User.findOne({ email: email });
+    console.log(existingUser);
+    let token;
+    if (existingUser) {
+      //create new user
+      existingUser.googleId = req.user.id;
+      await existingUser.save();
+      const payload = { id: existingUser._id };
+      const bearerToken = jwt.sign(payload, process.env.SECRET, {
+        expiresIn: "1h",
+      });
+      token = bearerToken;
+    } else {
+      const user = new User({
+        name: req.user.displayName,
+        email: req.user.emails[0].value,
+        googleId: req.user.id,
+      });
+      const createdUser = await user.save();
+      const payload = { id: createdUser._id };
+      const bearerToken = jwt.sign(payload, process.env.SECRET, {
+        expiresIn: "1h",
+      });
+      token = bearerToken;
+    }
+
+    //set cookie
+    res.cookie("token", token, { expire: new Date() + 360000 }); //after call get user detail api at profile page
+    res.redirect("/profile");
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).json({ err: err.message });
+  }
+};
+
+exports.signout = async (req, res) => {
   try {
     res.clearCookie("token");
     return res.status(200).json({ message: "Logged out successfully" });
