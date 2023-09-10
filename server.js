@@ -3,7 +3,12 @@ const { connectDB } = require("./src/config/db");
 const app = express();
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
+
+var corsOptions = {
+  origin: "*", // restrict calls to those this address
+};
 require("dotenv").config();
 const userRoutes = require("./src/routes/auth.routes");
 const inspirationRoutes = require("./src/routes/inspiration.routes");

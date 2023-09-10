@@ -106,6 +106,7 @@ exports.googleSignin = async (req, res) => {
 
     //set cookie
     res.cookie("token", token, { expire: new Date() + 360000 }); //after call get user detail api at profile page
+    console.log(`${process.env.Redirect_Url}`);
     res.redirect("/");
   } catch (err) {
     console.log(err.message);
