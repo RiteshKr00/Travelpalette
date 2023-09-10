@@ -5,10 +5,13 @@ const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
-
-var corsOptions = {
-  origin: "*", // restrict calls to those this address
+const corsOptions = {
+  origin: "http://localhost:3000", // Replace with your frontend's URL
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  optionsSuccessStatus: 204, // No Content
 };
+
+app.use(cors(corsOptions));
 require("dotenv").config();
 const userRoutes = require("./src/routes/auth.routes");
 const inspirationRoutes = require("./src/routes/inspiration.routes");
