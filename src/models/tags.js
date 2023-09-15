@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const tagSchema = new mongoose.Schema(
   {
     createdBy: {
-      type: mongoose.Schema.Types.ObjectId, 
-      ref: "User", 
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
     name: {
@@ -21,4 +21,5 @@ const tagSchema = new mongoose.Schema(
   }
 );
 
-export default tags= mongoose.model("Tag", tagSchema);
+const Tags = mongoose.model("Tags", tagSchema);
+module.exports = { Tags };

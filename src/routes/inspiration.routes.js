@@ -12,6 +12,7 @@ const {
   getInspirationById,
   getAllInspiration,
   deleteInspiration,
+  getFilteredInspiration,
 } = require("../controllers/inspiration.controller");
 const router = express.Router();
 
@@ -29,6 +30,11 @@ router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
   getAllInspiration
+);
+router.get(
+  "/filter",
+  passport.authenticate("jwt", { session: false }),
+  getFilteredInspiration
 );
 router.get(
   "/:id",

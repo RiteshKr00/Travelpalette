@@ -15,6 +15,7 @@ app.use(cors(corsOptions));
 require("dotenv").config();
 const userRoutes = require("./src/routes/auth.routes");
 const inspirationRoutes = require("./src/routes/inspiration.routes");
+const tagsRoutes = require("./src/routes/tags.routes");
 const { successResponse } = require("./src/utils/response");
 const passport = require("passport");
 
@@ -33,6 +34,7 @@ connectDB();
 // Routes
 app.use("/api/v1/auth", userRoutes);
 app.use("/api/v1/inspiration", inspirationRoutes);
+app.use("/api/v1/tags", tagsRoutes);
 
 app.get("/", (req, res) => {
   return res

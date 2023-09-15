@@ -62,7 +62,7 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        return done(null, profile); //this set req.user=user;
+        return done(null, profile); //this set req.user=user; can be used later to get user detail
       } catch (error) {
         return done(error);
       }

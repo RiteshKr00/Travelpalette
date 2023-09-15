@@ -1,4 +1,5 @@
 const { Inspiration } = require("../models/inspiration");
+const { Tags } = require("../models/tags");
 const { getPagination } = require("../utils/pagination");
 const { errorResponse, successResponse } = require("../utils/response");
 
@@ -25,6 +26,18 @@ exports.createInpiration = async (req, res, next) => {
     // Save the new inspiration to the database
     const savedInspiration = await newInspiration.save();
 
+    //Save tags in db ::use bulk update to update db in one request
+    var bulkUpdateOps = tags.map(function (t) {
+      return {
+        updateOne: {
+          filter: { name: t },
+          update: { $inc: { count: 1 }, $set: { createdBy: req.user._id } },
+          upsert: true,
+        },
+      };
+    });
+    const updateTagCount = await Tags.bulkWrite(bulkUpdateOps);
+    // console.log(updateTagCount);
     res
       .status(200)
       .json(
@@ -111,6 +124,35 @@ exports.deleteInspiration = async (req, res) => {
       .json(successResponse(null, "Inspiration Deleted Successfully"));
   } catch (error) {
     console.error("Error deleting inspiration:", error);
+    res.status(500).json(errorResponse("Internal server error" + error, 500));
+  }
+};
+exports.getFilteredInspiration = async (req, res) => {
+  try {
+    const { tags, startDate, endDate } = req.query;
+    //create a filter
+    const filter = {};
+    //tags :filter using regex
+    if (tags) {
+      filter.tags = { $in: tags.split(",").map((tag) => new RegExp(tag, "i")) }; //case insensitve
+    }
+    //based on date
+    if (startDate && endDate) {
+      filter.createdAt = {
+        $gte: new Date(startDate),
+        $lte: new Date(endDate),
+      };
+    }
+    const inspiration = await Inspiration.find({
+      $and: [filter, { createdBy: req.user._id }],
+    })
+      .sort([["createdAt", -1]])
+      .limit(10);
+
+    return res
+      .status(200)
+      .json(successResponse(inspiration, "Filtered Inspiration"));
+  } catch (error) {
     res.status(500).json(errorResponse("Internal server error" + error, 500));
   }
 };
