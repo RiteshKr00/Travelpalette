@@ -19,11 +19,19 @@ const itinerarySchema = new mongoose.Schema(
     },
     item: [
       {
+        _id: false,
         inspirationId: mongoose.Schema.Types.ObjectId,
         day: Date,
         time: Date,
       },
     ],
+    isPublic: {
+      type: Boolean,
+      default: false,
+    },
+    shareableLink: {
+      type: String,
+    },
   },
   {
     timestamps: true,

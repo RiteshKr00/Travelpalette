@@ -25,6 +25,7 @@ exports.searchInspirationByTags = async (req, res) => {
     const inspiration = await Inspiration.find({
       $and: [
         { tags: { $regex: query, $options: "i" } },
+        { title: { $regex: query, $options: "i" } },
         { createdBy: req.user._id },
       ],
     })

@@ -5,9 +5,13 @@ const inspirationSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+    title: {
+      type: String,
+      required: true,
+    },
     type: {
       type: String,
-      enum: ["IMAGE", "VIDEO", "LINK"],
+      enum: ["IMAGE", "LINK"],
       // default: 'LINK'
     },
     content: {

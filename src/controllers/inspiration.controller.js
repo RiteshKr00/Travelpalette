@@ -8,12 +8,21 @@ exports.createInpiration = async (req, res, next) => {
     //validation check later
     if (!req.body.content)
       return res.status(400).json(errorResponse("Content is required", 400));
-    const { type, content, description, notes, tags, activity, location } =
-      req.body;
+    const {
+      title,
+      type,
+      content,
+      description,
+      notes,
+      tags,
+      activity,
+      location,
+    } = req.body;
 
     // Create a new inspiration object
     const newInspiration = new Inspiration({
       createdBy: req.user._id,
+      title,
       type,
       content,
       description,
