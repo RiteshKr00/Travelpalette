@@ -9,6 +9,7 @@ const corsOptions = {
   origin: "http://localhost:3000", // Replace with your frontend's URL
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   optionsSuccessStatus: 204, // No Content
+  credentials: true, // Add this line
 };
 
 app.use(cors(corsOptions));

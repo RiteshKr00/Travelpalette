@@ -18,7 +18,7 @@ const { errorResponse, successResponse } = require("../utils/response");
 // opts.secretOrKey = process.env.SECRET; //Change Later
 const cookieExtractor = (req) => {
   let token = null;
-  // console.log("token is ", req.cookies);
+  console.log("token is ", req.cookies);
 
   if (req && req.cookies) {
     // console.log("token is ", req.cookies.token);
