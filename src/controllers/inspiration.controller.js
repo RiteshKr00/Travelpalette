@@ -1,5 +1,6 @@
 const { Inspiration } = require("../models/inspiration");
 const { Tags } = require("../models/tags");
+const { all } = require("../routes/itinerary.routes");
 const { getPagination } = require("../utils/pagination");
 const { errorResponse, successResponse } = require("../utils/response");
 
@@ -65,7 +66,7 @@ exports.updateInspiration = async (req, res) => {
       { _id: inspirationId },
       { $set: req.body }, //update only available data
       { new: true }
-    );
+    ).populate({ path: "createdBy", select: "-password" });
 
     if (!updatedInspiration) {
       return res.status(404).json(errorResponse("Inspiration not found", 404));
@@ -85,7 +86,9 @@ exports.getInspirationById = async (req, res) => {
   try {
     const inspirationId = req.params.id;
 
-    const inspiration = await Inspiration.findOne({ _id: inspirationId });
+    const inspiration = await Inspiration.findOne({
+      _id: inspirationId,
+    }).populate({ path: "createdBy", select: "-password" });
 
     if (!inspiration) {
       return res.status(404).json(errorResponse("Inspiration not found", 404));
@@ -102,9 +105,12 @@ exports.getAllInspiration = async (req, res) => {
     const { page, size } = req.query;
     const { limit, offset } = getPagination(page, size);
     const allInspiration = await Inspiration.find({ createdBy: req.user._id })
+      .populate({ path: "createdBy", select: "-password" })
+
       .skip(offset)
       .limit(limit)
       .sort("-createdAt");
+    console.log(allInspiration);
     if (!allInspiration) {
       return res.status(404).json(errorResponse("Inspiration not found", 404));
     }

@@ -21,7 +21,7 @@ const cookieExtractor = (req) => {
   console.log("token is ", req.cookies);
 
   if (req && req.cookies) {
-    // console.log("token is ", req.cookies.token);
+    console.log("token is ", req.cookies.token);
 
     token = req.cookies.token; // Replace with the actual name of your JWT cookie
   }

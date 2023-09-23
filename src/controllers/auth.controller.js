@@ -67,7 +67,13 @@ exports.signin = async (req, res) => {
       email: existingUser.email,
     };
     //set cookie
-    res.cookie("token", bearerToken, { expire: new Date() + 360000 });
+    res.cookie("token", bearerToken, {
+      expire: new Date() + 360000,
+      sameSite: "None",
+      secure: true,
+    });
+    console.log("Cookie set with value:", bearerToken);
+
     res.status(200).json(successResponse(data, "Signed in Successfully!"));
   } catch (error) {
     res.status(500).json(errorResponse("Internal server error", 500));

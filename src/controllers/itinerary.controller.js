@@ -42,13 +42,15 @@ exports.updateItinerary = async (req, res) => {
       { _id: itinerary },
       { $set: req.body }, //update only available data
       { new: true }
-    );
+    ).populate({ path: "createdBy", select: "-password" });
 
     if (!updatedItinerary) {
       return res.status(404).json(errorResponse("Itinerary Updated", 404));
     }
 
-    return res.status(200).json(successResponse(savedItinerary, "Itinerary "));
+    return res
+      .status(200)
+      .json(successResponse(updatedItinerary, "Itinerary "));
   } catch (error) {
     res.status(500).json(errorResponse("Internal server error" + error, 500));
   }
@@ -57,7 +59,10 @@ exports.getItineraryById = async (req, res) => {
   try {
     const itineraryId = req.params.id;
 
-    const itinerary = await Itinerary.findOne({ _id: itineraryId });
+    const itinerary = await Itinerary.findOne({ _id: itineraryId }).populate({
+      path: "createdBy",
+      select: "-password",
+    });
 
     if (!itinerary) {
       return res.status(404).json(errorResponse("Itinerary not found", 404));
@@ -76,7 +81,8 @@ exports.getAllItinerary = async (req, res) => {
     const allItinerary = await Itinerary.find({ createdBy: req.user._id })
       .skip(offset)
       .limit(limit)
-      .sort("-createdAt");
+      .sort("-createdAt")
+      .populate({ path: "createdBy", select: "-password" });
     if (!allItinerary) {
       return res.status(404).json(errorResponse("Itinerary not found", 404));
     }
