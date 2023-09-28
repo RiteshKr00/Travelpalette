@@ -8,7 +8,7 @@ const cors = require("cors");
 const corsOptions = {
   origin: [
     "http://localhost:3000",
-    "https://travel-6yxypcu53-slowgeek.vercel.app/",
+    "https://travel-6yxypcu53-slowgeek.vercel.app",
     "https://travelpalette.me",
   ], // Replace with your frontend's URL
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
