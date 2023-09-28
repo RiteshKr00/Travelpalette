@@ -6,7 +6,11 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
 const corsOptions = {
-  origin: "http://localhost:3000", // Replace with your frontend's URL
+  origin: [
+    "http://localhost:3000",
+    "https://prismatic-klepon-634d39.netlify.app",
+    "https://travelpalette.me",
+  ], // Replace with your frontend's URL
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   optionsSuccessStatus: 204, // No Content
   credentials: true, // Add this line
