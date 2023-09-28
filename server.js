@@ -14,6 +14,7 @@ const corsOptions = {
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   optionsSuccessStatus: 204, // No Content
   credentials: true, // Add this line
+  preflightContinue: true,
 };
 
 app.use(cors(corsOptions));
