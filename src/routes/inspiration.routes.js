@@ -14,6 +14,7 @@ const {
   deleteInspiration,
   getFilteredInspiration,
 } = require("../controllers/inspiration.controller");
+const { searchInspirationByTitle } = require("../controllers/tags.controller");
 const router = express.Router();
 
 router.post(
@@ -35,6 +36,11 @@ router.get(
   "/filter",
   passport.authenticate("jwt", { session: false }),
   getFilteredInspiration
+);
+router.get(
+  "/search",
+  passport.authenticate("jwt", { session: false }),
+  searchInspirationByTitle
 );
 router.get(
   "/:id",

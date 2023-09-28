@@ -25,16 +25,60 @@ exports.searchInspirationByTags = async (req, res) => {
     const inspiration = await Inspiration.find({
       $and: [
         { tags: { $regex: query, $options: "i" } },
+        { createdBy: req.user._id },
+      ],
+    })
+      //combined both
+      // const inspiration = await Inspiration.find({
+      //   $and: [
+      //     {
+      //       $or: [
+      //         { tags: { $regex: query, $options: "i" } },
+      //         { title: { $regex: query, $options: "i" } },
+      //       ],
+      //     },
+      //     { createdBy: req.user._id },
+      //   ],
+      // })
+      .sort([["createdAt", -1]])
+      .limit(10);
+    console.log(inspiration);
+    return res
+      .status(200)
+      .json(successResponse(inspiration, "Inspiration matching Given tags"));
+  } catch (error) {
+    res.status(500).json(errorResponse("Internal server error" + error, 500));
+  }
+};
+exports.searchInspirationByTitle = async (req, res) => {
+  try {
+    const { query } = req.query;
+    const queryPattern = new RegExp("^" + query);
+    console.log(queryPattern);
+    const inspiration = await Inspiration.find({
+      $and: [
         { title: { $regex: query, $options: "i" } },
         { createdBy: req.user._id },
       ],
     })
+      //combined both
+      // const inspiration = await Inspiration.find({
+      //   $and: [
+      //     {
+      //       $or: [
+      //         { tags: { $regex: query, $options: "i" } },
+      //         { title: { $regex: query, $options: "i" } },
+      //       ],
+      //     },
+      //     { createdBy: req.user._id },
+      //   ],
+      // })
       .sort([["createdAt", -1]])
       .limit(10);
-
+    console.log(inspiration);
     return res
       .status(200)
-      .json(successResponse(inspiration, "Inspiration matching Given tags"));
+      .json(successResponse(inspiration, "Inspiration matching Given title"));
   } catch (error) {
     res.status(500).json(errorResponse("Internal server error" + error, 500));
   }
