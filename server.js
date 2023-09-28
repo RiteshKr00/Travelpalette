@@ -8,7 +8,7 @@ const cors = require("cors");
 const corsOptions = {
   origin: [
     "http://localhost:3000",
-    "https://prismatic-klepon-634d39.netlify.app",
+    "https://travel-mu-three.vercel.app",
     "https://travelpalette.me",
   ], // Replace with your frontend's URL
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
