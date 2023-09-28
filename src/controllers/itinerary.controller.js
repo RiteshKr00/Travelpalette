@@ -11,7 +11,7 @@ const generateUniqueId = customAlphabet(
 exports.createItinerary = async (req, res) => {
   try {
     //validation check later
-    const { name, startDate, endDate, item } = req.body;
+    const { name, startDate, endDate, item, location } = req.body;
 
     // Create a new Itinerary object
     const newItinerary = new Itinerary({
@@ -20,6 +20,7 @@ exports.createItinerary = async (req, res) => {
       startDate,
       endDate,
       item,
+      location,
     });
 
     // Save the new Itinerary to the database
