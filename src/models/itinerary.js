@@ -22,12 +22,13 @@ const itinerarySchema = new mongoose.Schema(
       required: true,
     },
     item: [
-      {
-        _id: false,
-        inspirationId: mongoose.Schema.Types.ObjectId,
-        day: Date,
-        time: Date,
-      },
+      Object,
+      // {
+      //   _id: false,
+      //   inspirationId: mongoose.Schema.Types.ObjectId,
+      //   day: Date,
+      //   time: Date,
+      // },
     ],
     isPublic: {
       type: Boolean,
