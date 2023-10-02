@@ -5,6 +5,8 @@ const {
   signin,
   signout,
   googleSignin,
+  refreshToken,
+  userData,
 } = require("../controllers/auth.controller");
 const router = express.Router();
 const passport = require("passport");
@@ -29,6 +31,16 @@ router.get(
   googleSignin
 );
 router.get("/signout", signout);
+router.get(
+  "/refreshtoken",
+  passport.authenticate("jwt", { session: false }),
+  refreshToken
+);
+router.get(
+  "/userdata",
+  passport.authenticate("jwt", { session: false }),
+  userData
+);
 router.get(
   "/protected",
   passport.authenticate("jwt", { session: false }),

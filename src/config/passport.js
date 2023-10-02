@@ -17,15 +17,15 @@ const { errorResponse, successResponse } = require("../utils/response");
 // opts.jwtFromRequest = cookieExtractor; //ExtractJwt.fromAuthHeaderAsBearerToken();
 // opts.secretOrKey = process.env.SECRET; //Change Later
 const cookieExtractor = (req) => {
-  let token = null;
-  console.log("token is ", req.cookies);
+  let authToken = null;
+  console.log("authToken is ", req.cookies);
 
   if (req && req.cookies) {
-    console.log("token is ", req.cookies.token);
+    console.log("authToken is ", req.cookies.authToken);
 
-    token = req.cookies.token; // Replace with the actual name of your JWT cookie
+    authToken = req.cookies.authToken; // Replace with the actual name of your JWT cookie
   }
-  return token;
+  return authToken;
 };
 
 const opts = {
